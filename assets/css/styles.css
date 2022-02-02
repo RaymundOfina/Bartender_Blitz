@@ -1,0 +1,15 @@
+* {
+    margin: 0%;
+    border: pink solid 2px;
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
+}
+
+body {
+    padding: 15%;
+    text-align: center;
+ 
+}
+.header {
+    padding-bottom: 30%;
+    
+}
