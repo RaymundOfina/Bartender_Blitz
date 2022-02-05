@@ -20,21 +20,22 @@ window.onclick = function(event) {
 
 var gameOn = function(event) {
   var targetEl = event.target;
+  //when the start button is clicked
   if (targetEl.matches("#start")) {
-    resetPage();
+    //reset the page and load the next
+    resetPage(promptEl);
     displayLiquorBases();
   }
 };
 
-var resetPage = function() {
-  promptEl.remove();
+var resetPage = function(page) {
+  //remove all the main page content and return a new div
+  page.remove();
   return newPromptEL = document.createElement("div");
 };
 
 //popular alcohol bases we are working with
 var liquorBases = ["gin", "vodka", "tequila", "whiskey", "rum", "brandy"];
-//empty array to hold drink ids associated with each base
-var cocktailLists = [];
 
 var displayLiquorBases = function() {
   //iterate for every base liquor
@@ -47,8 +48,7 @@ var displayLiquorBases = function() {
     //create a select button for each card
     var liquorBaseButtonEl = document.createElement("button");
     liquorBaseButtonEl.type = "click";
-    liquorBaseButtonEl.className = "btn";
-    liquorBaseButtonEl.textContent = "Select";
+    liquorBaseButtonEl.className = "liquor-btn";
 
     //append new elements to page
     liquorBaseEl.appendChild(liquorBaseButtonEl);
@@ -58,42 +58,72 @@ var displayLiquorBases = function() {
 };
 
 var selectLiquorBase = function(event) {
+  var targetEl = event.target;
+  //if a liquor button is clicked
+  if (targetEl.matches(".liquor-btn")) {
+    //grab the text of the target button and lower case it
+    var selectedLiquor = targetEl.parentElement.textContent;
+    selectedLiquor = selectedLiquor.toLowerCase();
+    //reset the page and load the next
+    resetPage(newPromptEL);
+    getLiquorData(selectedLiquor);
+  }
+};
 
-}
+//empty array to hold drink Ids
+var drinkIds = [];
 
-var getLiquorData = function() {
-  //iterate through all liquor bases
-  for (i = 0; i < liquorBases.length; i++) {
-    //select a liquor from the array
-    var liquorBase = liquorBases[i];
-    //grab the api for this liquor
-    var apiUrl = "https://www.thecocktaildb.com/api/json/v1/1/filter.php?i=" + liquorBase;
-    
-    //fetch the api
+var getLiquorData = function(selectedLiquor) {
+  var apiUrl = "https://www.thecocktaildb.com/api/json/v1/1/filter.php?i=" + selectedLiquor;
+  //fetch the api
+  fetch(apiUrl).then(function(response) {
+    //request was successful
+    if (response.ok) {
+      //parse the response
+      response.json().then(function(data) {
+        for (i = 0; i < data.drinks.length; i++) {
+          //push every drink Id associated with this liquor into the array
+          drinkIds.push(data.drinks[i].idDrink);
+        }
+        displayCocktails();
+      });
+    }
+  }); 
+};
+
+var displayCocktails = function() {
+  //iterate for each id in the selected liquor's array
+  for (i = 0; i < drinkIds.length; i++) {
+
+    var apiUrl = "https://www.thecocktaildb.com/api/json/v1/1/lookup.php?i=" + drinkIds[i];
+
     fetch(apiUrl).then(function(response) {
       //request was successful
       if (response.ok) {
         //parse the response
         response.json().then(function(data) {
-          console.log(data);
-          //empty array to hold drink Ids
-          var drinkIds = [];
-          for (i = 0; i < data.drinks.length; i++) {
-            //push every drink Id associated with this liquor into the array
-            drinkIds.push(data.drinks[i].idDrink);
-          }
-          //push every liquor with their respective drink Id arrays into another array
-          cocktailLists.push({liquorBase:drinkIds});
+          var id = drinkIds[i];
+          var cocktailEl = document.createElement("div");
+          cocktailEl.className = "card";
+          cocktailEl.setAttribute("id", id);
+          cocktailEl.textContent = data.drinks[0].strDrink;
+          var cocktailButtonEl = document.createElement("button");
+          cocktailButtonEl.className = "cocktail-btn";
+          cocktailButtonEl.type = "click";
+  
+          //append to elements
+          cocktailEl.appendChild(cocktailButtonEl);
+          newPromptEL.appendChild(cocktailEl);
         });
       }
-    }); 
-  } 
-  console.log(cocktailLists);
+    });
+  }
+  pageContentEl.appendChild(newPromptEL);
 };
 
+//listen for events
 pageContentEl.addEventListener("click", gameOn);
-
-getLiquorData();
+pageContentEl.addEventListener("click", selectLiquorBase);
 
 
 
