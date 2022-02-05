@@ -1,7 +1,10 @@
 let howToBtn = document.getElementById("how-to-btn")
 let modal = document.getElementById("modal")
 let span = document.getElementsByClassName("close")[0];
+const modalText = document.getElementsByClassName("modal")
+let modalExample = "Hello world";
 
+// Modal Functionality start
 howToBtn.onclick = function() {
     modal.style.display = "block"
 }
@@ -12,15 +15,30 @@ span.onclick = function() {
   window.onclick = function(event) {
     if (event.target == modal) {
       modal.style.display = "none";
+ 
     }
   }
+//  Modal functionality end
+
+function startGame () {
+console.log("hey")
+
+
+
+
+}
+
+function displayLiquor(){
+    const newDiv = document.createElement("div");
+    newDiv.classList.add('w3-card');
+    document.modalText.appendChild(newDiv);
+}
 
 
 
 
 
-
-
+howToBtn.addEventListener("click", displayLiquor);
 
 
 
@@ -60,4 +78,3 @@ span.onclick = function() {
 //     var captionText = document.getElementById("caption");
 //     captionText.innerHTML = element.alt;
 //   }
-  
