@@ -42,13 +42,13 @@ var displayLiquorBases = function() {
   for (i = 0; i < liquorBases.length; i++) {
     //create a card for each base
     var liquorBaseEl = document.createElement("div");
-    liquorBaseEl.className = "card";
+    liquorBaseEl.className = "w3-panel w3-round-xlarge flex";
     liquorBaseEl.textContent = liquorBases[i].charAt(0).toUpperCase() + liquorBases[i].slice(1);
     
     //create a select button for each card
     var liquorBaseButtonEl = document.createElement("button");
     liquorBaseButtonEl.type = "click";
-    liquorBaseButtonEl.className = "liquor-btn";
+    liquorBaseButtonEl.className = "liquor-btn w3-hover-red w3-button w3-indigo w3-round-xxlarge w3-xxxlarge";
 
     //append new elements to page
     liquorBaseEl.appendChild(liquorBaseButtonEl);
@@ -104,11 +104,11 @@ var displayCocktails = function() {
         response.json().then(function(data) {
           var id = drinkIds[i];
           var cocktailEl = document.createElement("div");
-          cocktailEl.className = "card";
+          cocktailEl.className = "card w3-card w3-panel w3-round-xlarge flex";
           cocktailEl.setAttribute("id", id);
           cocktailEl.textContent = data.drinks[0].strDrink;
           var cocktailButtonEl = document.createElement("button");
-          cocktailButtonEl.className = "cocktail-btn";
+          cocktailButtonEl.className = "cocktail-btn liquor-btn w3-hover-red w3-button w3-indigo w3-round-xxlarge w3-xxxlarge";
           cocktailButtonEl.type = "click";
   
           //append to elements
