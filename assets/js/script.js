@@ -121,10 +121,63 @@ var displayCocktails = function() {
   pageContentEl.appendChild(newPromptEL);
 };
 
+var selectCocktail = function(event){
+  var targetEl = event.target;
+  if(targetEl.matches(".cocktail-btn")){
+    var selectedCocktail = targetEl.parentElement.textContent;
+    selectedCocktail = selectedCocktail.toLowerCase();
+    
+    resetPage(newPromptEL);
+    getCocktailIngredients(selectedCocktail);
+  }
+}; 
+
+
+
+var getCocktailIngredients = function(selectedCocktail){
+  var apiUrl = "https://www.thecocktaildb.com/api/json/v1/1/search.php?s=" + selectedCocktail;
+  fetch(apiUrl)
+  .then(function(response){
+    return response.json();
+  })
+  .then(function(data){
+    
+    displayIngredients(data.drinks[0]);
+  });
+};
+
+var displayIngredients = function(ingredientStorage){
+  var ingredientsList = document.createElement("div");
+  var ingredients = document.createElement('ul');
+
+  var drinkKeys = Object.keys(ingredientStorage);
+  var ingredient = drinkKeys.filter(function(item){
+    return item.includes('strIngredient');
+  })
+  var measures = drinkKeys.filter(function(item){
+    return item.includes('strMeasure');
+  })
+
+  ingredient.forEach(function(item, i){
+    if(!ingredientStorage[item]) return;
+    var ingredientItem = document.createElement('li');
+    ingredientItem.textContent = `${ingredientStorage[item]} - ${ingredientStorage[measures[i]]}`;
+    ingredients.append(ingredientItem);
+  })
+
+  ingredientsList.className = ("ingredient-list");
+  
+   
+   ingredients.setAttribute("id", ingredientStorage);
+   
+   ingredientsList.appendChild(ingredients);
+   pageContentEl.appendChild(ingredientsList);
+};
+
 //listen for events
 pageContentEl.addEventListener("click", gameOn);
 pageContentEl.addEventListener("click", selectLiquorBase);
-
+pageContentEl.addEventListener("click", selectCocktail);
 
 
 document.getElementById("whiskey").onclick = function(){
