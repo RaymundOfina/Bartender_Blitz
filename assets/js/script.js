@@ -17,7 +17,9 @@ span.onclick = function() {
 
 
 
-
+document.getElementById("whiskey").onclick = function(){
+  location.href= "whiskeypage"
+}
 
 
 
