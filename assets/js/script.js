@@ -5,6 +5,13 @@ var submitBtn = document.getElementById("start");
 let modal = document.getElementById("modal");
 let span = document.getElementsByClassName("close")[0];
 
+//create a go back button for each new page
+var restartBtn = document.createElement("button");
+restartBtn.type = "click";
+restartBtn.className = "restart";
+restartBtn.textContent = "Restart";
+
+
 howToBtn.onclick = function() {
     modal.style.display = "block";
 };
@@ -54,6 +61,7 @@ var displayLiquorBases = function() {
     liquorBaseEl.appendChild(liquorBaseButtonEl);
     newPromptEL.appendChild(liquorBaseEl);
     pageContentEl.appendChild(newPromptEL);
+    pageContentEl.appendChild(restartBtn);
   }
 };
 
@@ -67,6 +75,8 @@ var selectLiquorBase = function(event) {
     //reset the page and load the next
     resetPage(newPromptEL);
     getLiquorData(selectedLiquor);
+  } else if (targetEl.matches(".restart")) {
+    location.reload();
   }
 };
 
@@ -119,8 +129,9 @@ var displayCocktails = function() {
     });
   }
   pageContentEl.appendChild(newPromptEL);
+  pageContentEl.appendChild(restartBtn);
 };
-
+  
 var selectCocktail = function(event){
   var targetEl = event.target;
   if(targetEl.matches(".cocktail-btn")){
@@ -132,17 +143,12 @@ var selectCocktail = function(event){
   }
 }; 
 
-
-
 var getCocktailIngredients = function(selectedCocktail){
   var apiUrl = "https://www.thecocktaildb.com/api/json/v1/1/search.php?s=" + selectedCocktail;
-  fetch(apiUrl)
-  .then(function(response){
-    return response.json();
-  })
-  .then(function(data){
-    
-    displayIngredients(data.drinks[0]);
+  fetch(apiUrl).then(function(response){
+    response.json().then(function(data){
+      displayIngredients(data.drinks[0]);
+    });
   });
 };
 
@@ -166,12 +172,13 @@ var displayIngredients = function(ingredientStorage){
   })
 
   ingredientsList.className = ("ingredient-list");
-  
-   
-   ingredients.setAttribute("id", ingredientStorage);
-   
-   ingredientsList.appendChild(ingredients);
-   pageContentEl.appendChild(ingredientsList);
+
+
+  ingredients.setAttribute("id", ingredientStorage);
+    
+  ingredientsList.appendChild(ingredients);
+  pageContentEl.appendChild(ingredientsList);
+  pageContentEl.appendChild(restartBtn);
 };
 
 //listen for events
