@@ -19,22 +19,19 @@ header {
     
 }
 
-.container {
-  
-}
-.container:before {
- 
-}
-
 
 .header-title {
     font-size: 54px;
     font-style: unset;
     border-bottom: whitesmoke 2px;
+    color: yellow;
+    
 }
 
 .game-on-btn {
-    padding-top: 5%;
+    /* min-width: 75px;
+    min-height: 40px; */
+    
 }
 
 .how-to-btn {
@@ -74,7 +71,7 @@ header {
   
   .close:hover,
   .close:focus {
-    color: black;
+    color: rgb(255, 255, 255);
     text-decoration: none;
     cursor: pointer;
   }
@@ -82,4 +79,35 @@ header {
   .modal-list {
       text-align: justify;
       font-size: larger;
+  }
+
+  .w3-card {
+      font-size: 24px;
+      color: #fefefe;
+      width: 200px;
+  }
+  .liquor-btn {
+      min-width: 60px;
+      min-height: 40px;
+      margin: 20% 0 10% 20%;
+      display: inline-block;
+      color: white;
+      
+  }
+  .flex {
+      min-width: 650px;
+      min-height: 45px;
+      font-weight: bolder;
+      display: inline-block;
+      font-size: x-large;
+      border-bottom: 3px solid rgb(245, 188, 0);
+      color: white;
+      font-style: oblique;
+      
+      text-align: center;
+      padding-left: 25px;
+      margin: auto;
+  }
+  .hide {
+      display: none;
   }
