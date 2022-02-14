@@ -51,13 +51,20 @@ var displayLiquorBases = function() {
     var liquorBaseEl = document.createElement("div");
     liquorBaseEl.className = "w3-panel w3-round-xlarge flex";
     liquorBaseEl.textContent = liquorBases[i].charAt(0).toUpperCase() + liquorBases[i].slice(1);
-    
+
+    var imageUrl = "https://www.thecocktaildb.com/images/ingredients/"+ liquorBases[i] + ".png";
+          //create an image element of the base liquor
+          var liquorImageEl = document.createElement("img");
+          liquorImageEl.setAttribute("src", imageUrl);
+          liquorImageEl.setAttribute("alt", liquorBaseEl.textContent);
+
     //create a select button for each card
     var liquorBaseButtonEl = document.createElement("button");
     liquorBaseButtonEl.type = "click";
     liquorBaseButtonEl.className = "liquor-btn w3-hover-red w3-button w3-indigo w3-round-xxlarge w3-xxxlarge";
 
     //append new elements to page
+    liquorBaseEl.appendChild(liquorImageEl);
     liquorBaseEl.appendChild(liquorBaseButtonEl);
     newPromptEL.appendChild(liquorBaseEl);
     pageContentEl.appendChild(newPromptEL);
@@ -117,12 +124,16 @@ var displayCocktails = function() {
           cocktailEl.className = "card w3-card w3-panel w3-round-xlarge flex";
           cocktailEl.setAttribute("id", id);
           cocktailEl.textContent = data.drinks[0].strDrink;
+          var cocktailImageEl = document.createElement("img");
+          cocktailImageEl.setAttribute("src", data.drinks[0].strDrinkThumb);
+          cocktailImageEl.setAttribute("alt", cocktailEl.textContent);
           var cocktailButtonEl = document.createElement("button");
           cocktailButtonEl.className = "cocktail-btn liquor-btn w3-hover-red w3-button w3-indigo w3-round-xxlarge w3-xxxlarge";
           cocktailButtonEl.type = "click";
   
           //append to elements
           cocktailEl.appendChild(cocktailButtonEl);
+          cocktailEl.appendChild(cocktailImageEl);
           newPromptEL.appendChild(cocktailEl);
         });
       }
@@ -185,23 +196,6 @@ var displayIngredients = function(ingredientStorage){
 pageContentEl.addEventListener("click", gameOn);
 pageContentEl.addEventListener("click", selectLiquorBase);
 pageContentEl.addEventListener("click", selectCocktail);
-
-
-document.getElementById("whiskey").onclick = function(){
-  location.href= "whiskeypage"
-}
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 
